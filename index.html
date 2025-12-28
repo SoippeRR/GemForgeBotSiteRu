@@ -3,99 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gemma 3 AI — Интерфейс управления</title>
+    <title>GemForge AI — Центр управления</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --bg: #0f1014;
+            --bg: #0a0b0e;
             --accent: #00d2ff;
             --premium: #ff3e3e;
             --glass: rgba(255, 255, 255, 0.03);
-            --border: rgba(255, 255, 255, 0.1);
+            --border: rgba(255, 255, 255, 0.08);
         }
 
         body {
             background-color: var(--bg);
-            background-image: radial-gradient(circle at 50% -20%, #1e2631, var(--bg));
-            color: #e0e0e0;
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-image: radial-gradient(circle at 50% -10%, #1a202c, var(--bg));
+            color: #f0f0f0;
+            font-family: 'Inter', -apple-system, sans-serif;
             margin: 0;
             padding: 20px;
-            line-height: 1.6;
+            display: flex;
+            justify-content: center;
         }
 
-        .container { max-width: 600px; margin: 0 auto; }
+        .container { width: 100%; max-width: 500px; }
 
-        /* Шапка */
-        .header { text-align: center; margin-bottom: 40px; padding-top: 20px; }
+        .header { text-align: center; margin-bottom: 40px; }
         .logo { 
-            font-size: 2.5rem; font-weight: 900; letter-spacing: -1px;
-            background: linear-gradient(to right, #00d2ff, #3a7bd5);
+            font-size: 2.8rem; font-weight: 900; letter-spacing: -2px;
+            background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
         }
 
-        /* Карточки моделей */
         .model-grid {
-            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 30px;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 35px;
         }
         .model-card {
             background: var(--glass); border: 1px solid var(--border);
-            border-radius: 12px; padding: 15px; text-align: center;
+            border-radius: 16px; padding: 15px; text-align: center;
+            backdrop-filter: blur(10px); transition: 0.3s;
         }
-        .model-card i { color: var(--accent); margin-bottom: 10px; font-size: 1.2rem; }
-        .model-card h3 { margin: 5px 0; font-size: 0.9rem; }
-        .model-card p { font-size: 0.7rem; color: #888; margin: 0; }
+        .model-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+        .model-card i { color: var(--accent); font-size: 1.4rem; margin-bottom: 8px; }
+        .model-card h3 { margin: 0; font-size: 1rem; font-weight: 800; }
+        .model-card p { font-size: 0.7rem; color: #666; margin: 4px 0 0; }
 
-        /* Основной блок функций */
-        .section-title { font-size: 1.1rem; font-weight: 600; margin: 20px 0 15px; display: flex; align-items: center; gap: 10px; }
-        .section-title i { color: var(--accent); }
-
-        .feature-item {
+        .feature-card {
             background: var(--glass); border: 1px solid var(--border);
-            border-radius: 16px; padding: 20px; margin-bottom: 15px;
-            backdrop-filter: blur(10px);
+            border-radius: 20px; padding: 20px; margin-bottom: 15px;
+            position: relative; overflow: hidden;
         }
-
-        .feature-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .feature-name { font-weight: 700; font-size: 1.1rem; }
-        .tag { font-size: 0.65rem; padding: 3px 8px; border-radius: 6px; text-transform: uppercase; font-weight: 800; }
-        .tag-free { background: #333; color: #aaa; }
-        .tag-prem { background: var(--premium); color: white; box-shadow: 0 0 15px rgba(255, 62, 62, 0.4); }
-
-        .feature-desc { font-size: 0.9rem; color: #aaa; margin: 0; }
-
-        /* Кнопка подарка */
-        .gift-banner {
-            background: linear-gradient(135deg, #1a1a1a 0%, #000 100%);
-            border: 2px solid #333; border-radius: 20px; padding: 25px;
-            text-align: center; margin-top: 30px; position: relative; overflow: hidden;
+        .feature-info { display: flex; justify-content: space-between; align-items: flex-start; }
+        .feature-name { font-weight: 700; font-size: 1.1rem; display: block; margin-bottom: 5px; }
+        .feature-desc { font-size: 0.85rem; color: #999; margin: 0; }
+        
+        .badge {
+            font-size: 0.6rem; padding: 4px 10px; border-radius: 8px;
+            font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px;
         }
-        .gift-banner::after {
-            content: '🎁'; position: absolute; right: -10px; bottom: -10px; font-size: 5rem; opacity: 0.1;
+        .badge-prem { background: var(--premium); color: white; box-shadow: 0 0 15px rgba(255, 62, 62, 0.3); }
+        .badge-free { background: #222; color: #777; }
+
+        /* Блок подарка */
+        .gift-section {
+            background: linear-gradient(145deg, #111, #000);
+            border: 1px solid #333; border-radius: 24px; padding: 30px;
+            text-align: center; margin-top: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
+        .gift-section h2 { margin: 0 0 10px; font-size: 1.4rem; }
         .btn-gift {
-            display: inline-block; background: white; color: black;
-            padding: 12px 25px; border-radius: 30px; text-decoration: none;
-            font-weight: 800; margin-top: 15px; transition: 0.3s;
+            display: block; background: #fff; color: #000;
+            padding: 16px; border-radius: 18px; text-decoration: none;
+            font-weight: 800; font-size: 1rem; transition: 0.3s;
+            margin-top: 20px;
         }
-        .btn-gift:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(255,255,255,0.2); }
+        .btn-gift:hover { transform: scale(1.02); box-shadow: 0 0 20px rgba(255,255,255,0.1); }
 
-        .footer { text-align: center; color: #555; font-size: 0.8rem; margin-top: 40px; padding-bottom: 20px; }
+        .footer { text-align: center; color: #444; font-size: 0.75rem; margin-top: 40px; padding-bottom: 20px; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="header">
-        <div class="logo">GEMMA 3 AI</div>
-        <p>Интеллект нового поколения на твоем Xeon</p>
+        <div class="logo">GemForge</div>
+        <p style="color: #666; font-size: 0.9rem; margin-top: 5px;">AI-экосистема на базе Google Gemma 3</p>
     </div>
 
     <div class="model-grid">
         <div class="model-card">
             <i class="fas fa-bolt"></i>
             <h3>1B</h3>
-            <p>Super Fast</p>
+            <p>S-Fast</p>
         </div>
         <div class="model-card">
             <i class="fas fa-microchip"></i>
@@ -109,50 +108,47 @@
         </div>
     </div>
 
-    <div class="section-title"><i class="fas fa-star"></i> Возможности системы</div>
-
-    <div class="feature-item">
-        <div class="feature-header">
-            <span class="feature-name">Контекст (Память)</span>
-            <span class="tag tag-prem">До 10,000 симв.</span>
+    <div class="feature-card">
+        <div class="feature-info">
+            <div>
+                <span class="feature-name">Видео-зрение</span>
+                <p class="feature-desc">Глубокий анализ видео до 30 секунд. 3 уровня точности на выбор.</p>
+            </div>
+            <span class="badge badge-prem">Premium</span>
         </div>
-        <p class="feature-desc">Бот помнит всё! В бесплатной версии лимит 2,000 символов, в Premium — глубокая память для длинных диалогов.</p>
     </div>
 
-    <div class="feature-item">
-        <div class="feature-header">
-            <span class="feature-name">Анализ видео</span>
-            <span class="tag tag-prem">Ultra HD</span>
+    <div class="feature-card">
+        <div class="feature-info">
+            <div>
+                <span class="feature-name">Расширенная память</span>
+                <p class="feature-desc">Контекстное окно увеличено до 10,000 символов.</p>
+            </div>
+            <span class="badge badge-prem">10K</span>
         </div>
-        <p class="feature-desc">Единственный бот, который "видит" видео. 3 режима разбора: от быстрого (5 кадров) до Ультра (30 кадров).</p>
     </div>
 
-    <div class="feature-item">
-        <div class="feature-header">
-            <span class="feature-name">AI Реакции</span>
-            <span class="tag tag-prem">Smart</span>
+    <div class="feature-card">
+        <div class="feature-info">
+            <div>
+                <span class="feature-name">Умные реакции</span>
+                <p class="feature-desc">Автоматические эмодзи на основе контекста сообщения.</p>
+            </div>
+            <span class="badge badge-prem">Smart</span>
         </div>
-        <p class="feature-desc">Бот сам анализирует твои эмоции и ставит подходящие реакции на сообщения.</p>
     </div>
 
-    <div class="feature-item" style="opacity: 0.7;">
-        <div class="feature-header">
-            <span class="feature-name">Базовый чат</span>
-            <span class="tag tag-free">Безлимит</span>
-        </div>
-        <p class="feature-desc">Текстовое общение с моделью Flash доступно всем пользователям 24/7.</p>
-    </div>
-
-    <div class="gift-banner">
-        <h2 style="margin: 0; color: #fff;">Подари Premium другу</h2>
-        <p style="color: #888; font-size: 0.9rem;">Создавай уникальные ссылки-подарки и делись доступом.</p>
-        <a href="https://t.me/ТВОЙ_БОТ_ЮЗЕРНЕЙМ" class="btn-gift">🎁 Сделать подарок</a>
-        <div style="margin-top: 15px; font-size: 0.8rem; color: #555;">Цена: 5 Stars / Бесплатно для @soippe</div>
+    <div class="gift-section">
+        <i class="fas fa-gift" style="font-size: 2rem; color: #ff3e3e; margin-bottom: 15px;"></i>
+        <h2>Поделись мощью ИИ</h2>
+        <p style="color: #777; font-size: 0.85rem; margin: 0;">Создай уникальную ссылку и подари доступ к GemForge Premium своим друзьям.</p>
+        <a href="https://t.me/GemForgeBot?start=gift" class="btn-gift">🎁 Купить подарок другу</a>
+        <p style="margin-top: 12px; font-size: 0.7rem; color: #444;">Бесплатно для владельца @soippe</p>
     </div>
 
     <div class="footer">
-        Powered by Intel Xeon & NVIDIA 1660 Ti<br>
-        Developer: @soippe | 2025 New Year Update
+        GemForge Engine v3.0 | Hosted on Xeon Server<br>
+        Developed by @soippe
     </div>
 </div>
 
